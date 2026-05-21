@@ -1,21 +1,30 @@
 <script>
     import { onMount } from 'svelte';
 
-    let status = {
+    let status = $state({
         front_camera_status: null,
         top_camera_status: null,
         short_camera_status: null,
         front_camera_ip: '',
         top_camera_ip: '',
         short_camera_ip: ''
-    };
+    });
 
     async function fetchStatus() {
         try {
-            const response = await fetch('https://glowing-xylophone-pv6x9jqx6v7hggg-8000.app.github.dev');
+            const response = await fetch('http://localhost:8000/status');
             status = await response.json();
         } catch (err) {
             console.error('Failed to fetch status:', err);
+            status = {
+                front_camera_status: null,
+                top_camera_status: null,
+                short_camera_status: null,
+                
+                front_camera_ip: '',
+                top_camera_ip: '',
+                short_camera_ip: ''
+            }
         }
     }
 
@@ -80,7 +89,7 @@
     </div>
 
     <!-- Refresh Button -->
-    <button class="btn btn-sm btn-dashed sm:col-span-3" on:click={fetchStatus}>
+    <button class="btn btn-sm btn-dashed sm:col-span-3" onclick={fetchStatus}>
         Refresh
     </button>
 </div>
