@@ -22,10 +22,9 @@
         <div class="modal-box max-w-7xl w-11/12">
             <div class="grid gap-4 grid-cols-1 sm:grid-cols-3">
                 {#each previews as preview (preview)}
-                    <!-- svelte-ignore a11y_media_has_caption -->
                     <video
                         class="w-full rounded-lg aspect-video bg-black"
-                        src="https://stream.mux.com/BV3YZtogl89mg9VcNBhhnHm02Y34zI1nlMuMQfAbl3dM/highest.mp4"
+                        src={preview}
                         controls
                         autoplay
                         muted

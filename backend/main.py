@@ -27,11 +27,11 @@ class Experiment(BaseModel):
     name: str
 
 @app.get("/status")
-def status():
-    return get_status()
+async def status():
+    return await get_status()
 
 @app.get("/preview")
-def status():
+def preview():
     return get_preview()
 
 @app.post("/start_record")
