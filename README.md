@@ -3,10 +3,11 @@
 ## Usage
 First clone the repository.
 ```bash
-git clone ""
+git clone "https://github.com/MrRyanPerson/GoPro-webui.git"
+
+cd "GoPro-webui"
 ```
 ### Depedencies
-First you need nodejs and npm
 ```bash
 # Restart terminal after running
 winget install -e --id OpenJS.NodeJS
@@ -43,5 +44,13 @@ npm run build
 PORT=80 node build
 ```
 ## Development
-
+### 5/20/2026
+* Started Project
+* Initialized Project Structure and Svelte Project + Fastapi backend
+### 5/21/2026
+* Finalized UI for app
+* Created Mock Backend.
+### 5/22/2026
+* Finished Backend.
 ## Wiki
+[Link To Wiki](https://github.com/MrRyanPerson/GoPro-webui/wiki)
