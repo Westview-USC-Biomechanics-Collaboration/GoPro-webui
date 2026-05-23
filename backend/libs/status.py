@@ -1,6 +1,6 @@
 import json
 from open_gopro import *
-from connect import *
+from .connect import *
 
 
 async def get_status_front():

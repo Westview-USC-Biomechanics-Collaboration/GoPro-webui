@@ -36,7 +36,7 @@ Run the app.
 python main.py
 ```
 ### Front End
-CD to the root directory of the project and then run
+In a new terminal CD to the root directory of the project and then run
 ```bash
 # Build Project
 npm run build

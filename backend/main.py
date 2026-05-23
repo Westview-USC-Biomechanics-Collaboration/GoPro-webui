@@ -8,6 +8,7 @@ from libs.status import get_status
 from libs.preview import get_preview
 from libs.record import record
 from libs.record import stop_record
+from libs.extras import *
 
 app = FastAPI()
 
@@ -31,16 +32,28 @@ async def status():
     return await get_status()
 
 @app.get("/preview")
-def preview():
-    return get_preview()
+async def preview():
+    return await get_preview()
+
+@app.get("/controls/{action}")
+async def controls(action: str):
+    match action:
+        case "clear_gopros":
+            return await clear_gopros()
+        case "set_keep_alive":
+            return await set_keep_alive()
+        case _:
+            return {
+                "status": 500
+            }
 
 @app.post("/start_record")
-def start_recording(experiment: Experiment):
-    return record(experiment.name)
+async def start_recording(experiment: Experiment):
+    return await record(experiment.name)
 
 @app.post("/stop_record")
-def stop_recording(experiment: Experiment):
-    return stop_record(experiment.name)
+async def stop_recording(experiment: Experiment):
+    return await stop_record(experiment.name)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

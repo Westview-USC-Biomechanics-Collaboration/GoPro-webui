@@ -1,11 +1,9 @@
 from open_gopro import *
+from .conf import *
 import json
 import os
 
-global conf
-
-with open(os.path.join(os.path.dirname(__file__), os.pardir, 'conf.json')) as data:
-    conf = json.load(data)
+conf = get_conf()
 
 async def get_front_gopro():
     gopro_front = WiredGoPro(conf["FRONT_CAMERA_SERIAL"])
@@ -21,3 +19,5 @@ async def get_short_gopro():
     gopro_short = WiredGoPro(conf["SHORT_CAMERA_SERIAL"])
     await gopro_short.open()
     return gopro_short
+
+

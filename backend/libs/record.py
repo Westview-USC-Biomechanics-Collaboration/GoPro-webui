@@ -1,10 +1,9 @@
-import open_gopro
-import datetime
-from connect import *
+from datetime import datetime
+from .connect import *
+from .conf import *
 from open_gopro.models import constants
 
-with open(os.path.join(os.path.dirname(__file__), os.pardir, 'conf.json')) as data:
-    conf = json.load(data)
+conf = get_conf()
 
 def get_file_prefix():
     # Get current timestamp to use for prefix of filename
@@ -30,7 +29,6 @@ async def record(filename):
         }
     
     except Exception as e:
-        print("Error: " + e)
         return {
             "status": 500,
             "saved_file": filename
@@ -42,14 +40,20 @@ async def stop_record(filename):
         top_gopro = await get_top_gopro()
         short_gopro = await get_short_gopro()
 
-        cameras = [[front_gopro, "front"], [top_gopro, "top"], [short_gopro, "short"]]
+        cameras = [[front_gopro, "Front"], [top_gopro, "Top"], [short_gopro, "Short"]]
 
         for camera in cameras:
             gopro = camera[0]
             view = camera[1]
+            
             await gopro.http_command.set_shutter(shutter=constants.Toggle.DISABLE)
+            
             video = await gopro.http_command.get_last_captured_media()
-            new_file_path = os.path.join(conf["local_folder"], get_file_prefix() + '_{' + filename + '}_' + view + '.MP4')
+            new_file_path = os.path.join(conf["LOCAL_FOLDER"], get_file_prefix() + '_{' + filename + '}_' + view + '.MP4')
+            
+            print(new_file_path)
+            await gopro.http_command.download_file(camera_file=video, local_file=new_file_path)
+
 
         return {
             "status": 200,
@@ -61,3 +65,4 @@ async def stop_record(filename):
             "status": 500,
             "saved_file": filename
         }
+    

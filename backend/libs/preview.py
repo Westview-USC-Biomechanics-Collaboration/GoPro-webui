@@ -1,4 +1,4 @@
-from connect import *
+from .connect import *
 import open_gopro
 from open_gopro.models import constants
 import asyncio
@@ -28,6 +28,12 @@ async def short_preview():
     return f"http://{gopro.ip_address}:8080//videos/DCIM/{video.data.folder}/{video.data.file}"
 
 async def get_preview():
+    previews = await asyncio.gather(
+        top_preview(),
+        short_preview(),
+        front_preview()
+    )
+
     return {
-        "previews": [await top_preview, await short_preview, await front_preview]
+        "previews": previews
     }
