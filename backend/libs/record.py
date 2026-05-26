@@ -42,8 +42,8 @@ async def stop_record(filename):
 
         cameras = [[front_gopro, "Front"], [top_gopro, "Top"], [short_gopro, "Short"]]
 
-        if os.path.isdir(conf["LOCAL_DIR"]) == False:
-            os.mkdir(conf["LOCAL_DIR"])
+        if os.path.isdir(conf["LOCAL_FOLDER"]) == False:
+            os.mkdir(conf["LOCAL_FOLDER"])
 
         for camera in cameras:
             gopro = camera[0]
