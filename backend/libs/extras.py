@@ -17,7 +17,8 @@ async def clear_gopros():
         }
     except Exception as e:
         return {
-            "status": 500
+            "status": 500,
+            "error": repr(e)
         }
     
 async def set_keep_alive():
@@ -36,5 +37,6 @@ async def set_keep_alive():
         }
     except Exception as e:
         return {
-            "status": 500
+            "status": 500,
+            "error": repr(e)
         }
