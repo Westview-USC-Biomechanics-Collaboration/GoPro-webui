@@ -28,12 +28,21 @@ async def short_preview():
     return f"http://{gopro.ip_address}:8080//videos/DCIM/{video.data.folder}/{video.data.file}"
 
 async def get_preview():
-    previews = await asyncio.gather(
-        top_preview(),
-        short_preview(),
-        front_preview()
-    )
-
-    return {
-        "previews": previews
-    }
+    try:
+        previews = await asyncio.gather(
+            top_preview(),
+            short_preview(),
+            front_preview()
+        )
+    
+        return {
+            "status": 200,
+            "previews": previews
+        }
+    except Exception as e:
+        return {
+            "status": 500,
+            "error": repr(x)
+        }
+        
+        
