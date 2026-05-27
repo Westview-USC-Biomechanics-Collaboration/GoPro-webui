@@ -32,7 +32,7 @@ async def record(filename):
         print("Error:", e)
         return {
             "status": 500,
-            "saved_file": filename
+            "error": repr(e)
         }
 
 async def stop_record(filename):
@@ -67,6 +67,6 @@ async def stop_record(filename):
         print("Error:", e)
         return {
             "status": 500,
-            "saved_file": filename
+            "error": repr(e)
         }
     
