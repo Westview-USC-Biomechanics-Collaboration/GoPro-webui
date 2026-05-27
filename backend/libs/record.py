@@ -55,8 +55,11 @@ async def stop_record(filename):
             video = await gopro.http_command.get_last_captured_media()
             new_file_path = os.path.join(conf["LOCAL_FOLDER"], get_file_prefix() + '_{' + filename + '}_' + view + '.MP4')
             
+            video_path = video.data.folder + '/' + video.data.file
             print(new_file_path)
-            await gopro.http_command.download_file(camera_file=video, local_file=new_file_path)
+            print(video_path)
+
+            await gopro.http_command.download_file(camera_file=video_path, local_file=new_file_path)
 
 
         return {

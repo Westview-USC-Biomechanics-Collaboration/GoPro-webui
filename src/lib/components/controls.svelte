@@ -28,6 +28,17 @@
         <button class="btn btn-block" onclick={setKeepAlive}>
             Keep Alive
         </button>
+        <button class="btn btn-block" onclick={setKeepAlive}>
+            Get Presets
+        </button>
+    </div>
+</div>
+<dialog id="confirm_modal" class="modal">
+    <div class="modal-box">
+        <h1 class="text-xl sm:text-2xl font-bold">Presets</h1>
+        <div class="w-full grid grid-cols-1 sm:grid-cols-3">
+            <>
+        </div>
     </div>
 </div>
 <dialog id="confirm_modal" class="modal">
