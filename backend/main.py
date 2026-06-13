@@ -28,6 +28,7 @@ app.add_middleware(
 
 class Experiment(BaseModel):
     name: str
+    cameraSide: str
 
 @app.get("/status")
 async def status():
@@ -44,9 +45,12 @@ async def controls(action: str):
             return await clear_gopros()
         case "set_keep_alive":
             return await set_keep_alive()
+        case "get_presets":
+            return await get_preset()
         case _:
             return {
-                "status": 500
+                "status": 500,
+                "error": "Route not found!"
             }
 
 @app.post("/start_record")
@@ -55,7 +59,7 @@ async def start_recording(experiment: Experiment):
 
 @app.post("/stop_record")
 async def stop_recording(experiment: Experiment):
-    return await stop_record(experiment.name)
+    return await stop_record(experiment.name, experiment.cameraSide)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

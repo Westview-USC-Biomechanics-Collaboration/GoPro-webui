@@ -50,13 +50,13 @@ async def record(filename):
             "error": repr(e)
         }
 
-async def stop_record(filename):
+async def stop_record(filename, cameraSide):
     try:
         front_gopro = await get_front_gopro()
         top_gopro = await get_top_gopro()
         short_gopro = await get_short_gopro()
 
-        cameras = [[front_gopro, "Front"], [top_gopro, "Top"], [short_gopro, "Short"]]
+        cameras = [[front_gopro, "Front"], [top_gopro, "Top"], [short_gopro, f"Short{cameraSide}"]]
 
         if os.path.isdir(conf["LOCAL_FOLDER"]) == False:
             os.mkdir(conf["LOCAL_FOLDER"])
