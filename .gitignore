@@ -25,3 +25,6 @@ vite.config.ts.timestamp-*
 # Python
 .venv
 __pycache__
+
+# logs
+logs

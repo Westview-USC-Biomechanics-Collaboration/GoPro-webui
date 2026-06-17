@@ -3,9 +3,9 @@ from open_gopro import *
 
 async def clear_gopros():
     try:
-        front_gopro  = get_front_gopro()
-        top_gopro = get_top_gopro()
-        short_gopro = get_short_gopro()
+        front_gopro  = await get_front_gopro()
+        top_gopro = await get_top_gopro()
+        short_gopro = await get_short_gopro()
 
         gopros = [front_gopro, top_gopro, short_gopro]
 
@@ -23,9 +23,9 @@ async def clear_gopros():
     
 async def set_keep_alive():
     try:
-        front_gopro  = get_front_gopro()
-        top_gopro = get_top_gopro()
-        short_gopro = get_short_gopro()
+        front_gopro  = await get_front_gopro()
+        top_gopro = await get_top_gopro()
+        short_gopro = await get_short_gopro()
 
         gopros = [front_gopro, top_gopro, short_gopro]
 

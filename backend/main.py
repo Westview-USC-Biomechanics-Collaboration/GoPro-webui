@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from pydantic import BaseModel
+from contextlib import asynccontextmanager
 
 # Modules
 from libs.status import get_status
@@ -11,7 +12,13 @@ from libs.record import stop_record
 from libs.extras import *
 from libs.camera_manager import CameraManager
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global camera_manager
+    camera_manager = await CameraManager.create()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:5173",
@@ -31,10 +38,7 @@ class Experiment(BaseModel):
     name: str
     cameraSide: str
 
-async def main():
-    global camera_manager
-    camera_manager = await CameraManager.create()
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+camera_manager = None
 
 @app.get("/status")
 async def status():
@@ -68,4 +72,4 @@ async def stop_recording(experiment: Experiment):
     return await stop_record(experiment.name, experiment.cameraSide, camera_manager)
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
