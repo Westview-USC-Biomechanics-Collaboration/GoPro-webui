@@ -3,21 +3,17 @@ from .connect import *
 from .conf import *
 from open_gopro.models import constants
 import asyncio
-import httpx
 
 conf = get_conf()
 
 async def send_start_video(gopro):
-    ip_address = gopro.ip_address
-    mode = "start"
-    async with httpx.AsyncClient() as client:
-        await client.get(f"http://{ip_address}gopro/camera/shutter/{mode}")
+    mode = constants.Toggle.ENABLE
+    await gopro.http_command.set_shutter(mode)
+    
 
 async def send_stop_video(gopro):
-    ip_address = gopro.ip_address
     mode = "stop"
-    async with httpx.AsyncClient() as client:
-        await client.get(f"http://{ip_address}gopro/camera/shutter/{mode}")
+    await gopro.http_command.set_shutter(mode)
 
 
 def get_file_prefix():
@@ -27,11 +23,11 @@ def get_file_prefix():
     file_prefix = current_time.strftime("%Y%m%d_%H%M%S")
     return file_prefix
 
-async def record(filename):
+async def record(filename, CameraManager):
     try:
-        front_gopro = await get_front_gopro()
-        top_gopro = await get_top_gopro()
-        short_gopro = await get_short_gopro()
+        front_gopro = CameraManager.front_gopro
+        top_gopro = CameraManager.top_gopro
+        short_gopro = CameraManager.short_gopro
 
         gopros = [front_gopro, top_gopro, short_gopro]
 
@@ -50,11 +46,11 @@ async def record(filename):
             "error": repr(e)
         }
 
-async def stop_record(filename, cameraSide):
+async def stop_record(filename, cameraSide, CameraManager):
     try:
-        front_gopro = await get_front_gopro()
-        top_gopro = await get_top_gopro()
-        short_gopro = await get_short_gopro()
+        front_gopro = CameraManager.front_gopro
+        top_gopro = CameraManager.top_gopro
+        short_gopro = CameraManager.short_gopro
 
         cameras = [[front_gopro, "Front"], [top_gopro, "Top"], [short_gopro, f"Short{cameraSide}"]]
 
@@ -67,7 +63,7 @@ async def stop_record(filename, cameraSide):
             
             await send_stop_video(gopro)
 
-            await asyncio.sleep(0.3)    
+            await asyncio.sleep(1)    
 
             video = await gopro.http_command.get_last_captured_media()
             new_file_path = os.path.join(conf["LOCAL_FOLDER"], f"{get_file_prefix()}_{ {filename} }_{view}.MP4")

@@ -9,6 +9,7 @@ from libs.preview import get_preview
 from libs.record import record
 from libs.record import stop_record
 from libs.extras import *
+from libs.camera_manager import CameraManager
 
 app = FastAPI()
 
@@ -29,6 +30,11 @@ app.add_middleware(
 class Experiment(BaseModel):
     name: str
     cameraSide: str
+
+async def main():
+    global camera_manager
+    camera_manager = await CameraManager.create()
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
 
 @app.get("/status")
 async def status():
@@ -55,11 +61,11 @@ async def controls(action: str):
 
 @app.post("/start_record")
 async def start_recording(experiment: Experiment):
-    return await record(experiment.name)
+    return await record(experiment.name, camera_manager)
 
 @app.post("/stop_record")
 async def stop_recording(experiment: Experiment):
-    return await stop_record(experiment.name, experiment.cameraSide)
+    return await stop_record(experiment.name, experiment.cameraSide, camera_manager)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    main()
