@@ -42,21 +42,21 @@ camera_manager = None
 
 @app.get("/status")
 async def status():
-    return await get_status()
+    return await get_status(camera_manager)
 
 @app.get("/preview")
 async def preview():
-    return await get_preview()
+    return await get_preview(camera_manager)
 
 @app.get("/controls/{action}")
 async def controls(action: str):
     match action:
         case "clear_gopros":
-            return await clear_gopros()
+            return await clear_gopros(camera_manager)
         case "set_keep_alive":
-            return await set_keep_alive()
+            return await set_keep_alive(camera_manager)
         case "get_presets":
-            return await get_preset()
+            return await get_preset(camera_manager)
         case _:
             return {
                 "status": 500,

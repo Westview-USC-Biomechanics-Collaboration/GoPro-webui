@@ -3,10 +3,15 @@ from open_gopro import *
 from .connect import *
 
 
-async def get_status_front():
+async def get_status_front(CameraManager):
     try:
-        gopro = await get_front_gopro()
+        gopro = CameraManager.front_gopro
         ip_address = gopro.ip_address
+        if ip_address == "":
+            return {
+                "status": 500,
+                "ip_address": ""
+            }
         return {
             "status": 200,
             "ip_address": str(ip_address)
@@ -17,10 +22,17 @@ async def get_status_front():
             "ip_address": ""
         }
     
-async def get_status_short():
+async def get_status_short(CameraManager):
     try:
-        gopro = await get_short_gopro()
+        gopro = CameraManager.short_gopro
         ip_address = gopro.ip_address
+
+        if ip_address == "":
+            return {
+                "status": 500,
+                "ip_address": ""
+            }
+
         return {
             "status": 200,
             "ip_address": str(ip_address)
@@ -31,10 +43,15 @@ async def get_status_short():
             "ip_address": ""
         }
     
-async def get_status_top():
+async def get_status_top(CameraManager):
     try:
-        gopro = await get_top_gopro()
+        gopro = CameraManager.top_gopro
         ip_address = gopro.ip_address
+        if ip_address == "":
+            return {
+                "status": 500,
+                "ip_address": ""
+            }
         return {
             "status": 200,
             "ip_address": str(ip_address)
@@ -45,10 +62,10 @@ async def get_status_top():
             "ip_address": ""
         }
 
-async def get_status():
-    top_status = await get_status_top()
-    short_status = await get_status_short()
-    front_status = await get_status_front()
+async def get_status(CameraManager):
+    top_status = await get_status_top(CameraManager)
+    short_status = await get_status_short(CameraManager)
+    front_status = await get_status_front(CameraManager)
 
     return {
         "front_camera_status": front_status["status"],
