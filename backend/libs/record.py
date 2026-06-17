@@ -8,12 +8,12 @@ conf = get_conf()
 
 async def send_start_video(gopro):
     mode = constants.Toggle.ENABLE
-    await gopro.http_command.set_shutter(mode)
+    await gopro.http_command.set_shutter(shutter=mode)
     
 
 async def send_stop_video(gopro):
-    mode = "stop"
-    await gopro.http_command.set_shutter(mode)
+    mode = constants.Toggle.DISABLE
+    await gopro.http_command.set_shutter(shutter=mode)
 
 
 def get_file_prefix():
