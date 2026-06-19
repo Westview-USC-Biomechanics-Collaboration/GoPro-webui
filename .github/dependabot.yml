@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "uv" # See documentation for possible values
-      directory: "/backend" # Location of package manifests
-      schedule:
+    directory: "/backend" # Location of package manifests
+    schedule:
         interval: "weekly"
