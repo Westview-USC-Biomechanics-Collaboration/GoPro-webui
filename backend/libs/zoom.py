@@ -2,9 +2,17 @@
 
 async def top_camera_zoom(CameraManager, zoom):
     try: 
+
+        if zoom > 100 or zoom < 0:
+            return {
+                "status": 500,
+                "error": "Zoom Out Of Range. (0-100)"
+            }
+        
         top_gopro = CameraManager.top_gopro
 
-        await top_gopro.http_command.set_digital_zoom(zoom/100)
+        # Zoom is between 0 and 100 where 0 is minimum zoom and 100 is maximum
+        await top_gopro.http_command.set_digital_zoom(int(zoom))
 
         return {
             "status": 200

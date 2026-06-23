@@ -50,7 +50,7 @@ async def preview():
     return await get_preview(camera_manager)
 
 @app.get("/zoom/{percent}")
-async def zoom(percent: int):
+async def zoom(percent: str):
     return await top_camera_zoom(camera_manager, percent)
     
 @app.get("/controls/{action}")
