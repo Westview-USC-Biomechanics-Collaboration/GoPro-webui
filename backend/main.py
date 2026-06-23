@@ -10,6 +10,7 @@ from libs.preview import get_preview
 from libs.record import record
 from libs.record import stop_record
 from libs.extras import *
+from libs.zoom import top_camera_zoom
 from libs.camera_manager import CameraManager
 
 @asynccontextmanager
@@ -48,6 +49,10 @@ async def status():
 async def preview():
     return await get_preview(camera_manager)
 
+@app.get("/zoom/{percent}")
+async def zoom(percent: int):
+    return await top_camera_zoom(camera_manager, percent)
+    
 @app.get("/controls/{action}")
 async def controls(action: str):
     match action:
