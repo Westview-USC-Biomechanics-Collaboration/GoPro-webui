@@ -3,7 +3,7 @@
 async def top_camera_zoom(CameraManager, zoom):
     try: 
 
-        if zoom > 100 or zoom < 0:
+        if int(zoom) > 100 or int(zoom) < 0:
             return {
                 "status": 500,
                 "error": "Zoom Out Of Range. (0-100)"
