@@ -35,6 +35,14 @@
             console.error('Failed to fetch status:', err);
         }
     }
+    async function resetConnection() {
+        try {
+            await fetch('http://localhost:8000/controls/reset_connection');
+        } catch (err) {
+            console.error('Failed to fetch status:', err);
+        }
+    }
+
     async function getPresets() {
         try {
             let response = await fetch('http://localhost:8000/controls/get_presets');
@@ -65,6 +73,10 @@
         <button class="btn btn-block" onclick={openZoom}>
             Set Top Zoom
         </button>
+        <button class="btn btn-block" onclick={resetConnection}>
+            Reset Connection
+        </button>
+
     </div>
 </div>
 
